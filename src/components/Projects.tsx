@@ -5,33 +5,33 @@ import { ExternalLink, Github, Cpu, Database, Layers, BookOpen } from "lucide-re
 
 const projects = [
     {
-        title: "OmniScout Platform",
-        description: "Multi-tenant GenAI platform consolidating OncoScout & VRDScout using FastMCP.",
-        tags: ["FastMCP", "GenAI", "Platform"],
-        icon: Layers,
-        status: "DEPLOYED"
-    },
-    {
-        title: "SQL Agent",
-        description: "Natural Language to SQL with Self-Correction and 95% accuracy.",
-        tags: ["LangChain", "SQL", "Agents"],
-        icon: Database,
-        status: "STABLE"
-    },
-    {
         title: "Deep Learning Suite",
-        description: "Custom CNNs for Audio (Mel Spectrograms) & Vision.",
-        tags: ["PyTorch", "Audio ML", "CNN"],
+        description: "Architected and trained five end-to-end PyTorch classification models across multiple domains (Audio, Image, Text, Tabular). Built custom 2D-CNN for audio with on-the-fly Mel Spectrogram generation.",
+        tags: ["PyTorch", "Audio ML", "CNN", "Transfer Learning"],
         icon: Cpu,
         status: "RESEARCH"
     },
     {
-        title: "Personal Blog",
-        description: "Technical writing on Data Science, AI Agents, and System Architecture.",
-        tags: ["Technical Writing", "DS", "AI"],
+        title: "Sarcasm Detector (NLP)",
+        description: "Implemented transfer learning NLP solutions. Fine-tuned ResNet-18 and developed a sarcasm detector using custom classification layers on frozen BERT [CLS] embeddings.",
+        tags: ["BERT", "NLP", "Transformers", "ResNet-18"],
         icon: BookOpen,
-        status: "LIVE"
+        status: "COMPLETED"
     },
+    {
+        title: "OmniScout Platform",
+        description: "Multi-tenant GenAI platform consolidating OncoScout & VRDScout using FastMCP. Engineered a conversational AI tool achieving 99% accuracy in SQL generation.",
+        tags: ["FastMCP", "GenAI", "FastAPI", "LangGraph"],
+        icon: Layers,
+        status: "DEPLOYED"
+    },
+    {
+        title: "SQL Agent System",
+        description: "Advanced SQL agent using Langchain and Anthropic Claude. Engineered dynamic few-shot learning with OpenSearch to boost accuracy by 18%.",
+        tags: ["LangChain", "AWS Bedrock", "OpenSearch", "CoT"],
+        icon: Database,
+        status: "STABLE"
+    }
 ];
 
 export default function Projects() {
@@ -48,7 +48,7 @@ export default function Projects() {
                         <span className="text-neon-green text-glow">Project</span> Blueprints
                     </h2>
                     <p className="text-slate-400 max-w-2xl mx-auto font-mono">
-                        Executing deployment protocols...
+                        Executing deployment protocols from personal archives.
                     </p>
                 </motion.div>
 
@@ -103,7 +103,7 @@ export default function Projects() {
                                         </button>
                                         <button className="flex-1 py-2 rounded bg-white/5 hover:bg-neon-green hover:text-black text-white text-sm font-bold font-mono transition-all duration-300 flex items-center justify-center gap-2">
                                             <ExternalLink className="w-4 h-4" />
-                                            DEPLOY
+                                            DETAILS
                                         </button>
                                     </div>
                                 </div>

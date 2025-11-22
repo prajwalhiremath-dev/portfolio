@@ -1,114 +1,144 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
-import { Briefcase, Calendar } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { ChevronRight, Terminal, GitCommit } from "lucide-react";
 
 const experiences = [
     {
-        company: "Deloitte USI",
+        id: "deloitte",
         role: "Data Scientist (Consultant)",
-        period: "Current",
-        description: "Architected OmniScout Multi-Tenant AI Platform & SQL Agents for Pharma giants.",
-        metrics: ["95-99% accuracy in SQL generation", "Secured $2M+ client engagement"],
-        tags: ["GenAI", "SQL Agents", "Pharma"],
+        company: "Deloitte USI",
+        client: "Eli Lilly & Pfizer",
+        period: "01/2025 - Present",
+        tech: ["LangChain", "CrewAI", "AWS Bedrock", "FastMCP", "OpenSearch", "DeepEval"],
+        details: [
+            "Architected an advanced SQL agent using Langchain and Anthropic Claude on AWS Bedrock to enable natural language querying of a 7-table, auto-refreshing AWS RDS (PostgreSQL) database.",
+            "Engineered a dynamic few-shot learning system (using OpenSearch vector DB) and a specific Chain of Thought (CoT) prompt to boost domain accuracy by 18% and reduce hallucinations by 31%.",
+            "Achieved 95% query accuracy, outperforming OpenAI models and securing the client's continued engagement with Anthropic's technology.",
+            "Developed a 4-agent RAG pipeline (Query Router, Retriever, Synthesizer, Evaluator) using CrewAI to process complex natural language queries against clinical trial documents.",
+            "Engineered a custom hybrid search engine (FAISS vector similarity + BM25 keyword matching) for high-precision retrieval and used DeepEval for automated relevancy evaluation.",
+            "Built 'OmniScout', a multi-tenant AI platform consolidating four specialized agentic applications into a single scalable codebase using FastAPI and FastMCP."
+        ]
     },
     {
-        company: "Cisco Systems",
+        id: "cisco",
         role: "Software Engineer",
-        period: "Previous",
-        description: "Architected high-availability Testbed Reservation Systems & ML Predictors.",
-        metrics: ["Served 300+ users", "99%+ uptime", "Recovered $150K annual value"],
-        tags: ["ML", "High Availability", "System Design"],
-    },
+        company: "Cisco Systems",
+        period: "01/2021 - 12/2024",
+        tech: ["Django", "Celery", "Redis", "XGBoost", "PostgreSQL"],
+        details: [
+            "Architected a high-availability Testbed Reservation System serving 300+ users and 5,000+ monthly reservations.",
+            "Eliminated 100% of double-booking race conditions by implementing PostgreSQL row-level locking within atomic transactions.",
+            "Engineered a non-blocking Celery-Redis asynchronous notification system reducing testbed idle time by 45%, recovering $150K in annual value.",
+            "Engineered an ML pipeline (XGBoost, Random Forest) to predict testbed suitability, serializing the pipeline with joblib to prevent training-serving skew.",
+            "Built a RAG chatbot (FastAPI, OpenAI Embeddings, ChromaDB) that reduced hardware info lookup time by 75%.",
+            "Developed a Cisco Wiki Analytics Dashboard using Flask/Pandas to automate executive reporting, reducing manual generation time by 40%."
+        ]
+    }
 ];
 
-export default function Experience() {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start end", "end start"],
-    });
-
-    const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+export default function ExperienceLog() {
+    const [expandedId, setExpandedId] = useState<string | null>("deloitte");
 
     return (
-        <section className="py-20 bg-slate-950 relative" id="experience" ref={containerRef}>
-            <div className="container mx-auto px-6">
+        <section className="py-20 bg-deep-black font-mono" id="experience">
+            <div className="container mx-auto px-6 max-w-4xl">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="mb-16 text-center"
+                    className="mb-12 flex items-center gap-4"
                 >
-                    <h2 className="text-3xl md:text-5xl font-heading font-bold mb-4">
-                        Professional <span className="text-gradient">Circuit</span>
+                    <Terminal className="w-8 h-8 text-neon-green" />
+                    <h2 className="text-3xl font-bold text-white">
+                        <span className="text-neon-green">~/</span>system_logs
                     </h2>
                 </motion.div>
 
-                <div className="relative max-w-4xl mx-auto">
-                    {/* Center Line */}
-                    <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-white/10 -translate-x-1/2">
-                        <motion.div
-                            className="absolute top-0 left-0 w-full bg-gradient-to-b from-electric-violet to-cyan"
-                            style={{ height: lineHeight }}
-                        />
-                    </div>
-
-                    <div className="space-y-12">
-                        {experiences.map((exp, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 50 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, margin: "-100px" }}
-                                transition={{ duration: 0.5, delay: index * 0.2 }}
-                                className={`relative flex flex-col md:flex-row gap-8 ${index % 2 === 0 ? "md:flex-row-reverse" : ""
+                <div className="relative border-l-2 border-white/10 ml-4 md:ml-8 space-y-8">
+                    {experiences.map((exp) => (
+                        <div key={exp.id} className="relative pl-8 md:pl-12">
+                            {/* Timeline Node */}
+                            <div
+                                className={`absolute left-[-9px] top-0 w-4 h-4 rounded-full border-2 transition-colors duration-300 ${expandedId === exp.id
+                                    ? "bg-deep-black border-neon-green shadow-[0_0_10px_rgba(0,255,65,0.5)]"
+                                    : "bg-deep-black border-white/20"
                                     }`}
                             >
-                                {/* Timeline Node */}
-                                <div className="absolute left-4 md:left-1/2 top-0 w-4 h-4 rounded-full bg-slate-950 border-2 border-cyan -translate-x-1/2 z-10 shadow-[0_0_10px_rgba(6,182,212,0.5)]" />
+                                {expandedId === exp.id && (
+                                    <div className="absolute inset-0 rounded-full bg-neon-green animate-ping opacity-20" />
+                                )}
+                            </div>
 
-                                {/* Content */}
-                                <div className="ml-12 md:ml-0 md:w-1/2">
-                                    <div className={`p-6 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm hover:border-cyan/30 transition-colors ${index % 2 === 0 ? "md:text-left" : "md:text-right"
-                                        }`}>
-                                        <div className={`flex items-center gap-2 mb-2 text-cyan font-mono text-sm ${index % 2 === 0 ? "md:justify-start" : "md:justify-end"
-                                            }`}>
-                                            <Calendar className="w-4 h-4" />
-                                            {exp.period}
+                            {/* Content Card */}
+                            <motion.div
+                                initial={false}
+                                animate={{
+                                    borderColor: expandedId === exp.id ? "rgba(0, 255, 65, 0.3)" : "rgba(255, 255, 255, 0.1)"
+                                }}
+                                className="bg-white/5 border rounded-lg overflow-hidden cursor-pointer group hover:bg-white/10 transition-colors"
+                                onClick={() => setExpandedId(expandedId === exp.id ? null : exp.id)}
+                            >
+                                {/* Header */}
+                                <div className="p-4 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                    <div>
+                                        <div className="flex items-center gap-2 text-sm text-slate-400 mb-1">
+                                            <span className="text-neon-green">commit {exp.id.substring(0, 7)}</span>
+                                            <span>•</span>
+                                            <span>{exp.period}</span>
                                         </div>
-                                        <h3 className="text-2xl font-bold text-white mb-1">{exp.role}</h3>
-                                        <div className="text-lg text-electric-violet mb-4 font-medium flex items-center gap-2 md:inline-flex">
-                                            <Briefcase className="w-4 h-4" />
-                                            {exp.company}
+                                        <h3 className="text-xl font-bold text-white group-hover:text-neon-green transition-colors">
+                                            {exp.role}
+                                        </h3>
+                                        <div className="text-slate-300">
+                                            {exp.company} {exp.client && <span className="text-slate-500">({exp.client})</span>}
                                         </div>
-                                        <p className="text-slate-300 mb-4">{exp.description}</p>
-                                        <ul className={`space-y-2 mb-4 ${index % 2 === 0 ? "items-start" : "md:items-end"
-                                            } flex flex-col`}>
-                                            {exp.metrics.map((metric, i) => (
-                                                <li key={i} className="text-sm text-slate-400 flex items-center gap-2">
-                                                    <span className="w-1.5 h-1.5 rounded-full bg-cyan" />
-                                                    {metric}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                        <div className={`flex flex-wrap gap-2 ${index % 2 === 0 ? "justify-start" : "md:justify-end"
-                                            }`}>
-                                            {exp.tags.map((tag) => (
-                                                <span key={tag} className="px-3 py-1 rounded-full text-xs font-mono bg-white/5 border border-white/10 text-slate-300">
-                                                    {tag}
+                                    </div>
+
+                                    <div className="flex items-center gap-4">
+                                        <div className="flex flex-wrap gap-2 justify-end max-w-[200px] md:max-w-none">
+                                            {exp.tech.slice(0, 3).map((t) => (
+                                                <span key={t} className="text-xs px-2 py-1 rounded bg-black border border-white/10 text-slate-400">
+                                                    {t}
                                                 </span>
                                             ))}
+                                            {exp.tech.length > 3 && (
+                                                <span className="text-xs px-2 py-1 text-slate-500">+{exp.tech.length - 3}</span>
+                                            )}
                                         </div>
+                                        <ChevronRight
+                                            className={`w-5 h-5 text-slate-500 transition-transform duration-300 ${expandedId === exp.id ? "rotate-90 text-neon-green" : ""
+                                                }`}
+                                        />
                                     </div>
                                 </div>
 
-                                {/* Empty side for layout balance */}
-                                <div className="hidden md:block md:w-1/2" />
+                                {/* Expanded Details */}
+                                <AnimatePresence>
+                                    {expandedId === exp.id && (
+                                        <motion.div
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{ height: "auto", opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            transition={{ duration: 0.3 }}
+                                        >
+                                            <div className="px-4 md:px-6 pb-6 border-t border-white/5 bg-black/20">
+                                                <ul className="space-y-3 mt-4">
+                                                    {exp.details.map((detail, i) => (
+                                                        <li key={i} className="flex items-start gap-3 text-sm md:text-base text-slate-300 leading-relaxed">
+                                                            <GitCommit className="w-5 h-5 text-neon-green shrink-0 mt-0.5" />
+                                                            <span>{detail}</span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
                             </motion.div>
-                        ))}
-                    </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </section>

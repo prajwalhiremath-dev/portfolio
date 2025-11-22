@@ -10,26 +10,33 @@ const experiences = [
         role: "Data Scientist (Consultant)",
         company: "Deloitte USI",
         client: "Eli Lilly & Pfizer",
-        period: "Current",
-        tech: ["LangChain", "CrewAI", "AWS Bedrock", "FastMCP"],
+        period: "01/2025 - Present",
+        tech: ["LangChain", "Anthropic Claude", "AWS Bedrock", "CrewAI", "OpenSearch", "DeepEval", "FastAPI", "LangGraph", "FastMCP"],
         details: [
-            "Architected SQL agent with Anthropic Claude; 95% query accuracy on 7-table RDS.",
-            "Engineered dynamic few-shot learning (OpenSearch) and CoT prompting to boost domain accuracy by 18% and reduce hallucinations by 31%.",
-            "Built \"OmniScout\" multi-tenant AI platform using FastAPI Dependency Injection and Pydantic.",
-            "Developed 4-agent RAG pipeline (Router, Retriever, Synthesizer, Evaluator) using Hybrid Search (FAISS + BM25)."
+            "Architected an advanced SQL agent using Langchain and Anthropic Claude on AWS Bedrock to enable natural language querying of a 7-table, auto-refreshing AWS RDS (PostgreSQL) database.",
+            "Engineered a dynamic few-shot learning system (using OpenSearch vector DB) and a specific Chain of Thought (CoT) prompt to boost domain accuracy by 18% and reduce hallucinations by 31%.",
+            "Achieved 95% query accuracy, outperforming OpenAI models and securing the client's continued engagement with Anthropic's technology.",
+            "Developed a 4-agent RAG pipeline (Query Router, Retriever, Synthesizer, Evaluator) using CrewAI to process complex natural language queries against clinical trial documents and SQL databases.",
+            "Engineered a custom hybrid search engine (FAISS vector similarity + BM25 keyword matching) for high-precision retrieval and used DeepEval for automated relevancy evaluation, significantly improving research efficiency.",
+            "Architected 'OmniScout,' a multi-tenant AI platform that consolidated four specialized agentic applications (OncoScout, VRDScout, etc.) into a single, scalable codebase, unifying RAG and SQL agent logic.",
+            "Engineered a dynamic, header-driven configuration system using FastAPI Dependency Injection and Pydantic settings to load client-specific secrets and data sources based on the x-uc-client-id header.",
+            "Engineered a conversational AI tool using FastMCP with self-correcting validation and debugging agents, achieving 99% accuracy in translating natural language into complex SQL queries."
         ]
     },
     {
         id: "cisco",
         role: "Software Engineer",
         company: "Cisco Systems",
-        period: "Previous",
-        tech: ["Django", "Celery", "Redis", "XGBoost"],
+        period: "01/2021 - 12/2024",
+        tech: ["Django", "PostgreSQL", "Celery", "Redis", "XGBoost", "Flask", "Pandas", "ChromaDB"],
         details: [
-            "Architected Testbed Reservation System serving 300+ users/5000+ monthly reservations",
-            "Eliminated 100% of double-booking race conditions using PostgreSQL row-level locking.",
-            "Reduced testbed idle time by 45% (recovering $150K/year) via Celery-Redis notification system.",
-            "Built RAG chatbot (FastAPI + ChromaDB) reducing hardware lookup time by 75%."
+            "Architected a high-availability Django platform scaled to serve 300+ engineers and 5,000+ monthly reservations, eliminating 100% of double-booking race conditions by implementing PostgreSQL row-level locking within atomic transactions.",
+            "Engineered a non-blocking Celery-Redis asynchronous notification system and built utilization dashboards, which together reduced testbed idle time by 45% (recovering $150K in annual value).",
+            "Engineered a ML pipeline to predict testbed suitability, systematically training and benchmarking few classifiers including XGBoost, Random Forest.",
+            "Implemented a robust preprocessing workflow using StandardScaler for feature scaling and LabelEncoder for categorical encoding, serializing the pipeline with joblib to prevent training-serving skew.",
+            "Developed a Flask REST API to serve real-time predictions, leveraging comprehensive metrics (Accuracy, AUC-ROC, Precision-Recall) and visualizations (Confusion Matrix, ROC Curve) to validate model performance.",
+            "Engineered a Flask and Pandas dashboard to automate executive reporting by ingesting, cleaning, and programmatically standardizing raw Excel data, which reduced manual report generation time by 40%.",
+            "Built a RAG chatbot (FastAPI, OpenAI Embeddings, ChromaDB) that enabled natural language queries for hardware specs, reducing information lookup time by 75%."
         ]
     }
 ];
@@ -39,7 +46,7 @@ export default function ExperienceLog() {
 
     return (
         <section className="py-20 bg-deep-black font-mono" id="experience">
-            <div className="container mx-auto px-6 max-w-4xl">
+            <div className="container mx-auto px-6 max-w-5xl">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -73,10 +80,9 @@ export default function ExperienceLog() {
                                 animate={{
                                     borderColor: expandedId === exp.id ? "rgba(0, 255, 65, 0.3)" : "rgba(255, 255, 255, 0.1)"
                                 }}
-                                className="bg-white/5 border rounded-lg overflow-hidden cursor-pointer group"
+                                className="bg-white/5 border rounded-lg overflow-hidden cursor-pointer group hover:bg-white/10 transition-colors"
                                 onClick={() => setExpandedId(expandedId === exp.id ? null : exp.id)}
                             >
-                                {/* Header */}
                                 <div className="p-4 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
                                     <div>
                                         <div className="flex items-center gap-2 text-sm text-slate-400 mb-1">
@@ -93,12 +99,15 @@ export default function ExperienceLog() {
                                     </div>
 
                                     <div className="flex items-center gap-4">
-                                        <div className="flex flex-wrap gap-2 justify-end">
-                                            {exp.tech.map((t) => (
+                                        <div className="flex flex-wrap gap-2 justify-end max-w-[250px] md:max-w-none">
+                                            {exp.tech.slice(0, 3).map((t) => (
                                                 <span key={t} className="text-xs px-2 py-1 rounded bg-black border border-white/10 text-slate-400">
                                                     {t}
                                                 </span>
                                             ))}
+                                            {exp.tech.length > 3 && (
+                                                <span className="text-xs px-2 py-1 text-slate-500">+{exp.tech.length - 3}</span>
+                                            )}
                                         </div>
                                         <ChevronRight
                                             className={`w-5 h-5 text-slate-500 transition-transform duration-300 ${expandedId === exp.id ? "rotate-90 text-neon-green" : ""
@@ -107,7 +116,6 @@ export default function ExperienceLog() {
                                     </div>
                                 </div>
 
-                                {/* Expanded Details */}
                                 <AnimatePresence>
                                     {expandedId === exp.id && (
                                         <motion.div
@@ -117,21 +125,11 @@ export default function ExperienceLog() {
                                             transition={{ duration: 0.3 }}
                                         >
                                             <div className="px-4 md:px-6 pb-6 border-t border-white/5 bg-black/20">
-                                                <ul className="space-y-3 mt-4">
+                                                <ul className="space-y-4 mt-4">
                                                     {exp.details.map((detail, i) => (
                                                         <li key={i} className="flex items-start gap-3 text-sm md:text-base text-slate-300 leading-relaxed">
                                                             <GitCommit className="w-5 h-5 text-neon-green shrink-0 mt-0.5" />
-                                                            <span>
-                                                                {detail.split(/(\[cite:.*?\])/).map((part, j) => (
-                                                                    part.startsWith("[cite:") ? (
-                                                                        <span key={j} className="text-neon-green/70 text-xs ml-1 font-mono">
-                                                                            {part}
-                                                                        </span>
-                                                                    ) : (
-                                                                        part
-                                                                    )
-                                                                ))}
-                                                            </span>
+                                                            <span>{detail}</span>
                                                         </li>
                                                     ))}
                                                 </ul>

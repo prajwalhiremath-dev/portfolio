@@ -2,43 +2,46 @@
 
 import { motion } from "framer-motion";
 import {
-    SiPython, SiPostgresql, SiCplusplus,
-    SiLangchain, SiAnthropic, SiOpenai,
-    SiPytorch, SiHuggingface,
-    SiFastapi, SiDjango, SiDocker, SiAmazon, SiRedis,
-    SiOpensearch
+    SiPython, SiPostgresql, SiScikitlearn, SiPandas, SiNumpy,
+    SiLangchain, SiAnthropic, SiOpenai, SiFastapi, SiDjango,
+    SiFlask, SiAmazon, SiDocker, SiGit, SiPytorch,
+    SiRedis, SiOpensearch
 } from "react-icons/si";
-import { Database, Brain, Server, Code2, Search } from "lucide-react";
+import { Database, Brain, Server, Code2, Search, Workflow } from "lucide-react";
 
 const techStack = [
     {
-        category: "Languages",
+        category: "Languages & Core",
         icon: Code2,
         items: [
-            { name: "Python", icon: SiPython },
+            { name: "Python (Expert)", icon: SiPython },
             { name: "SQL", icon: Database },
-            { name: "C++", icon: SiCplusplus },
+            { name: "Scikit-learn", icon: SiScikitlearn },
+            { name: "Pandas", icon: SiPandas },
+            { name: "NumPy", icon: SiNumpy },
         ]
     },
     {
-        category: "GenAI & Agents",
+        category: "Agentic AI & GenAI",
         icon: Brain,
         items: [
+            { name: "LangGraph", icon: Workflow },
+            { name: "CrewAI", icon: Brain },
             { name: "LangChain", icon: SiLangchain },
-            { name: "CrewAI", icon: Brain }, // Fallback as no specific icon yet
-            { name: "Claude", icon: SiAnthropic },
-            { name: "OpenAI", icon: SiOpenai },
-            { name: "RAG", icon: Database },
+            { name: "FastMCP", icon: Server },
+            { name: "Anthropic Claude", icon: SiAnthropic },
+            { name: "OpenAI GPT-4", icon: SiOpenai },
         ]
     },
     {
-        category: "Deep Learning",
+        category: "Deep Learning & ML",
         icon: Brain,
         items: [
             { name: "PyTorch", icon: SiPytorch },
-            { name: "Transformers", icon: SiHuggingface },
+            { name: "Transformers", icon: Brain },
             { name: "CNNs", icon: Brain },
             { name: "XGBoost", icon: Brain },
+            { name: "Audio ML", icon: Brain },
         ]
     },
     {
@@ -47,19 +50,21 @@ const techStack = [
         items: [
             { name: "FastAPI", icon: SiFastapi },
             { name: "Django", icon: SiDjango },
+            { name: "Flask", icon: SiFlask },
+            { name: "AWS (Bedrock, S3, RDS)", icon: SiAmazon },
             { name: "Docker", icon: SiDocker },
-            { name: "AWS", icon: SiAmazon },
-            { name: "PostgreSQL", icon: SiPostgresql },
-            { name: "Redis", icon: SiRedis },
+            { name: "Git", icon: SiGit },
         ]
     },
     {
-        category: "Vector Search",
+        category: "Data & Vector DBs",
         icon: Search,
         items: [
             { name: "OpenSearch", icon: SiOpensearch },
             { name: "FAISS", icon: Search },
             { name: "ChromaDB", icon: Database },
+            { name: "PostgreSQL", icon: SiPostgresql },
+            { name: "Redis", icon: SiRedis },
         ]
     }
 ];
@@ -78,7 +83,7 @@ export default function TechGrid() {
                         <span className="text-neon-green text-glow">System</span> Modules
                     </h2>
                     <p className="text-slate-400 max-w-2xl mx-auto font-mono">
-                        Loaded Dependencies & Frameworks
+                        Core Capabilities & Frameworks
                     </p>
                 </motion.div>
 
@@ -97,17 +102,15 @@ export default function TechGrid() {
                                 <h3 className="font-heading font-bold text-xl">{category.category}</h3>
                             </div>
 
-                            <div className="grid grid-cols-3 gap-4">
-                                {category.items.map((item, itemIndex) => (
+                            <div className="grid grid-cols-2 gap-4">
+                                {category.items.map((item) => (
                                     <motion.div
                                         key={item.name}
-                                        whileHover={{ scale: 1.1 }}
-                                        className="flex flex-col items-center gap-2 group cursor-pointer"
+                                        whileHover={{ scale: 1.05 }}
+                                        className="flex items-center gap-3 group cursor-pointer"
                                     >
-                                        <div className="w-12 h-12 rounded-lg bg-black border border-white/10 flex items-center justify-center group-hover:border-neon-green group-hover:shadow-[0_0_10px_rgba(0,255,65,0.3)] transition-all duration-300">
-                                            <item.icon className="w-6 h-6 text-slate-400 group-hover:text-neon-green group-hover:animate-pulse transition-colors" />
-                                        </div>
-                                        <span className="text-xs font-mono text-slate-500 group-hover:text-neon-green transition-colors text-center">
+                                        <item.icon className="w-5 h-5 text-slate-400 group-hover:text-neon-green transition-colors shrink-0" />
+                                        <span className="text-sm font-mono text-slate-300 group-hover:text-neon-green transition-colors break-words">
                                             {item.name}
                                         </span>
                                     </motion.div>
