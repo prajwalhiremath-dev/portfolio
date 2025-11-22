@@ -29,3 +29,13 @@
 body {
   @apply bg-deep-black text-slate-50;
 }
+
+@layer utilities {
+  .perspective-2000 {
+    perspective: 2000px;
+  }
+
+  .rotate-x-20 {
+    transform: rotateX(20deg);
+  }
+}
